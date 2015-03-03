@@ -1,2 +1,6 @@
 ---
 # vars file for jenkins
+
+jenkins_packages:
+  - jenkins
+jenkins_service_name: jenkins
