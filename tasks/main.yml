@@ -16,3 +16,12 @@
 - name: Ensure Jenkins is started and enabled on boot
   service: name={{ jenkins_service_name }} state=started enabled=yes
   tags: jenkins
+
+- name: Install Jenkins CLI
+  get_url: >
+    url=http://localhost:8080/jnlpJars/jenkins-cli.jar
+    dest={{ jenkins_home }}/jenkins-cli.jar
+    owner=jenkins
+    group=jenkins
+    mode=0644
+  tags: jenkins

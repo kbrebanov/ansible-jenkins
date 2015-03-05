@@ -4,3 +4,4 @@
 jenkins_packages:
   - jenkins
 jenkins_service_name: jenkins
+jenkins_home: /var/lib/jenkins
