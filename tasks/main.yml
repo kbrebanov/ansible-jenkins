@@ -17,6 +17,9 @@
   service: name={{ jenkins_service_name }} state=started enabled=yes
   tags: jenkins
 
+- name: Ensure Jenkins is ready
+  wait_for: port=8080 delay=5
+
 - name: Install Jenkins CLI
   get_url: >
     url=http://localhost:8080/jnlpJars/jenkins-cli.jar
@@ -24,4 +27,33 @@
     owner=jenkins
     group=jenkins
     mode=0644
+  tags: jenkins
+
+- name: Update Jenkins plugin information
+  get_url: >
+    url=http://updates.jenkins-ci.org/update-center.json
+    dest={{ jenkins_home }}/updates/default.json
+    owner=jenkins
+    group=jenkins
+    mode=0644
+    force=yes
+  tags: jenkins
+
+- name: Remove first line of plugin information file
+  lineinfile: >
+    dest={{ jenkins_home }}/updates/default.json
+    regexp='^updateCenter.post\($'
+    state=absent
+  tags: jenkins
+
+- name: Remove last line of plugin information file
+  lineinfile: >
+    dest={{ jenkins_home }}/updates/default.json
+    regexp='^\);$'
+    state=absent
+  tags: jenkins
+
+- name: Install and update Jenkins plugins
+  command: java -jar {{ jenkins_home }}/jenkins-cli.jar -s http://localhost:8080 install-plugin {{ jenkins_plugins }}
+  notify: restart jenkins
   tags: jenkins
