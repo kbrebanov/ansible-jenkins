@@ -1,2 +1,5 @@
 ---
 # vars file for jenkins (Ubuntu specific)
+
+jenkins_packages:
+  - jenkins={{ jenkins_version }}
