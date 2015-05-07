@@ -18,7 +18,10 @@
   tags: jenkins
 
 - name: Ensure Jenkins is ready
-  wait_for: port=8080 delay=5
+  wait_for: >
+    path=/var/log/jenkins/jenkins.log
+    search_regex="Jenkins is fully up and running"
+  tags: jenkins
 
 - name: Install Jenkins CLI
   get_url: >
