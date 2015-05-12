@@ -37,8 +37,8 @@
   get_url: >
     url=http://localhost:8080/jnlpJars/jenkins-cli.jar
     dest={{ jenkins_home }}/jenkins-cli.jar
-    owner=jenkins
-    group=jenkins
+    owner={{ jenkins_user }}
+    group={{ jenkins_group }}
     mode=0644
   tags: jenkins
 
@@ -46,8 +46,8 @@
   get_url: >
     url=https://updates.jenkins-ci.org/stable-{{ jenkins_version|truncate(5, True, '') }}/latest/{{ item }}.hpi
     dest={{ jenkins_home }}/plugins/{{ item }}.jpi
-    owner=jenkins
-    group=jenkins
+    owner={{ jenkins_user }}
+    group={{ jenkins_group }}
     mode=0644
   with_items: jenkins_plugins
   notify: restart jenkins
@@ -57,8 +57,8 @@
   template: >
     src=config.xml.j2
     dest={{ jenkins_home }}/config.xml
-    owner=jenkins
-    group=jenkins
+    owner={{ jenkins_user }}
+    group={{ jenkins_group }}
     mode=0644
   notify: restart jenkins
   tags: jenkins
@@ -67,8 +67,8 @@
   template: >
     src=jenkins.model.JenkinsLocationConfiguration.xml.j2
     dest={{ jenkins_home }}/jenkins.model.JenkinsLocationConfiguration.xml
-    owner=jenkins
-    group=jenkins
+    owner={{ jenkins_user }}
+    group={{ jenkins_group }}
     mode=0644
   notify: restart jenkins
   tags: jenkins
