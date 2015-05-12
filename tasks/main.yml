@@ -62,3 +62,13 @@
     mode=0644
   notify: restart jenkins
   tags: jenkins
+
+- name: Create Jenkins location configuration
+  template: >
+    src=jenkins.model.JenkinsLocationConfiguration.xml.j2
+    dest={{ jenkins_home }}/jenkins.model.JenkinsLocationConfiguration.xml
+    owner=jenkins
+    group=jenkins
+    mode=0644
+  notify: restart jenkins
+  tags: jenkins
