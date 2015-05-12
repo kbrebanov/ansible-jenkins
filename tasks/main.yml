@@ -17,6 +17,16 @@
   service: name={{ jenkins_service_name }} state=started enabled=yes
   tags: jenkins
 
+- name: Create Jenkins defaults file
+  template: >
+    src=jenkins.defaults.j2
+    dest=/etc/default/jenkins
+    owner=root
+    group=root
+    mode=0644
+  notify: restart jenkins
+  tags: jenkins
+
 - name: Ensure Jenkins is ready
   wait_for: >
     path=/var/log/jenkins/jenkins.log
