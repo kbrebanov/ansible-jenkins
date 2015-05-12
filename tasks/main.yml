@@ -19,7 +19,7 @@
 
 - name: Create Jenkins defaults file
   template: >
-    src=jenkins.defaults.j2
+    src=jenkins.default.j2
     dest=/etc/default/jenkins
     owner=root
     group=root
