@@ -32,13 +32,31 @@
     mode=0644
   tags: jenkins
 
-- name: Install Jenkins plugins
+- name: Update Jenkins plugin information
   get_url: >
-    url=https://updates.jenkins-ci.org/stable-{{ jenkins_version|truncate(5, True, '') }}/latest/{{ item }}.hpi
-    dest={{ jenkins_home }}/plugins/{{ item }}.jpi
+    url=http://updates.jenkins-ci.org/update-center.json
+    dest={{ jenkins_home }}/updates/default.json
     owner=jenkins
     group=jenkins
     mode=0644
-  with_items: jenkins_plugins
+    force=yes
+  tags: jenkins
+
+- name: Remove first line of plugin information file
+  lineinfile: >
+    dest={{ jenkins_home }}/updates/default.json
+    regexp='^updateCenter.post\($'
+    state=absent
+  tags: jenkins
+
+- name: Remove last line of plugin information file
+  lineinfile: >
+    dest={{ jenkins_home }}/updates/default.json
+    regexp='^\);$'
+    state=absent
+  tags: jenkins
+
+- name: Install and update Jenkins plugins
+  command: java -jar {{ jenkins_home }}/jenkins-cli.jar -s http://localhost:8080 install-plugin {{ jenkins_plugins }}
   notify: restart jenkins
   tags: jenkins
