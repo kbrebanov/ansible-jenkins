@@ -3,3 +3,5 @@
 
 jenkins_service_name: jenkins
 jenkins_home: /var/lib/jenkins
+jenkins_user: jenkins
+jenkins_group: jenkins

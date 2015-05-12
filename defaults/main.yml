@@ -23,6 +23,7 @@ jenkins_plugins:
   - translation
   - windows-slaves
 jenkins_num_executors: 2
-jenkins_url: http://localhost:8080/
+jenkins_http_port: 8080
+jenkins_url: http://localhost:{{ jenkins_http_port }}/
 jenkins_admin_address: "address not configured yet &lt;nobody@nowhere&gt;"
 jenkins_no_usage_statistics: "false"
