@@ -27,3 +27,4 @@ jenkins_plugins:
 jenkins_num_executors: 2
 jenkins_url: http://localhost:8080/
 jenkins_admin_address: "address not configured yet &lt;nobody@nowhere&gt;"
+jenkins_no_usage_statistics: "false"
