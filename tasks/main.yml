@@ -42,3 +42,13 @@
   with_items: jenkins_plugins
   notify: restart jenkins
   tags: jenkins
+
+- name: Create Jenkins main configuration
+  template: >
+    src=config.xml.j2
+    dest={{ jenkins_home }}/config.xml
+    owner=jenkins
+    group=jenkins
+    mode=0644
+  notify: restart jenkins
+  tags: jenkins
