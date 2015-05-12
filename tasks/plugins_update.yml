@@ -1,0 +1,39 @@
+---
+# tasks file for jenkins (Plugins update)
+
+- name: Update Jenkins plugin information
+  get_url: >
+    url=http://updates.jenkins-ci.org/update-center.json
+    dest={{ jenkins_home }}/updates/default.json
+    owner=jenkins
+    group=jenkins
+    mode=0644
+    force=yes
+  tags:
+    - jenkins
+    - plugins_update
+
+- name: Remove first line of plugin information file
+  lineinfile: >
+    dest={{ jenkins_home }}/updates/default.json
+    regexp='^updateCenter.post\($'
+    state=absent
+  tags:
+    - jenkins
+    - plugins_update
+
+- name: Remove last line of plugin information file
+  lineinfile: >
+    dest={{ jenkins_home }}/updates/default.json
+    regexp='^\);$'
+    state=absent
+  tags:
+    - jenkins
+    - plugins_update
+
+- name: Update Jenkins plugins
+  command: java -jar {{ jenkins_home }}/jenkins-cli.jar -s http://localhost:8080 install-plugin {{ jenkins_plugins|join(' ') }}
+  notify: restart jenkins
+  tags:
+    - jenkins
+    - plugins_update
