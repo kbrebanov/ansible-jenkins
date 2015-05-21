@@ -1,19 +1,12 @@
 ---
 # tasks file for jenkins (Ubuntu specific)
 
-- name: Add Jenkins APT repository
-  apt_repository: >
-    repo='deb http://pkg.jenkins-ci.org/debian-stable binary/'
-    state=present
+- name: Download Jenkins
+  get_url: >
+    url=http://pkg.jenkins-ci.org/debian-stable/binary/jenkins_{{ jenkins_version }}_all.deb
+    dest=/root/
   tags: jenkins
 
-- name: Add Jenkins APT repository key
-  apt_key: >
-    url=http://pkg.jenkins-ci.org/debian-stable/jenkins-ci.org.key
-    state=present
-  tags: jenkins
-
-- name: Install Jenkins packages
-  apt: name={{ item }} state=present update_cache=yes
-  with_items: jenkins_packages
+- name: Install Jenkins
+  apt: deb=/root/jenkins_{{ jenkins_version }}_all.deb state=present force=yes
   tags: jenkins
