@@ -1,7 +1,7 @@
 ---
 # defaults file for jenkins
 
-jenkins_version: 1.596.2
+jenkins_version: 1.596.3
 jenkins_plugins:
   - ant
   - credentials
